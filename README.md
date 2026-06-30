@@ -121,28 +121,28 @@ Citadel/
 
 ## 🏠 Homepage
 <p align="center">
-  <img src="screenshots/Home.png" width="1000">
+  <img src="Screenshots/Home.png" width="1000">
 </p>
 
 ---
 
 ## 📚 Book Catalogue
 <p align="center">
-  <img src="screenshots/Book Catalog.png" width="1000">
+  <img src="Screenshots/Book Catalog.png" width="1000">
 </p>
 
 ---
 
 ## 🪪 Library Card Registration
 <p align="center">
-  <img src="screenshots/Library Card Login.png" width="700">
+  <img src="Screenshots/Library Card Login.png" width="700">
 </p>
 
 ---
 
 ## ✅ Card Issued Successfully
 <p align="center">
-  <img src="screenshots/Card Issue Confirmation.png" width="700">
+  <img src="Screenshots/Card Issue Confirmation.png" width="700">
 </p>
 
 ---

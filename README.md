@@ -128,7 +128,7 @@ Citadel/
 
 ## 📚 Book Catalogue
 <p align="center">
-  <img src="Screenshots/Book Catalog.png" width="1000">
+  <img src="Screenshots/Book catalog.png" width="1000">
 </p>
 
 ---

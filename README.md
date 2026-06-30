@@ -1,5 +1,5 @@
 <h1 align="center">
-  # Citadel — The Library Management System </h1>
+   Citadel — The Library Management System </h1>
 
 <p align="center">
   <b>Where Stories Come Alive</b>

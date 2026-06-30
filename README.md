@@ -1,35 +1,42 @@
-<h1 align="center">
-   Citadel — The Library Management System </h1>
+<h1 align="center">🏰 Citadel — The Library Management System</h1>
 
 <p align="center">
-  <b>Where Stories Come Alive</b>
+  <b>✨ Where Stories Come Alive ✨</b>
 </p>
 
 <p align="center">
-A premium fantasy-inspired library management web application themed around <b>The Citadel of Oldtown</b> from Game of Thrones.
+  A premium fantasy-inspired library management web application themed around <b>The Citadel of Oldtown</b> from Game of Thrones.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.x-blue">
+  <img src="https://img.shields.io/badge/Flask-WebApp-black">
+  <img src="https://img.shields.io/badge/Status-Completed-green">
+  <img src="https://img.shields.io/badge/License-MIT-yellow">
 </p>
 
 ---
 
-## Overview
+## 📖 Overview
 
 Citadel is a modern web-based Library Management System designed to transform traditional library workflows into an immersive digital experience.
 
-Inspired by the ancient archives of The Citadel in Oldtown, the platform combines elegant UI design with practical functionality for book discovery, borrowing, and member management.
+Inspired by the ancient archives of **The Citadel in Oldtown**, the platform combines elegant UI design with practical functionality for book discovery, borrowing, and member management.
 
-Unlike traditional academic projects that focus solely on CRUD operations, Citadel emphasises both **system functionality** and **user experience**.
+Unlike traditional academic projects that focus solely on CRUD operations, Citadel emphasizes both **system functionality** and **user experience**.
 
 ---
 
-## Features
+## ✨ Features
 
-### Book Discovery
+### 📚 Book Discovery
 - Browse 100+ books
 - Search by title or author
 - Filter by category
-- View availability status
+- Sort books efficiently
+- View real-time availability status
 
-### Library Membership
+### 🪪 Library Membership
 - Register for a library card
 - Automatic unique card number generation
 - Digital card issuance
@@ -39,64 +46,65 @@ Example:
 CLB-2026-1001
 ```
 
-### Borrowing System
+### 🔄 Borrowing System
 - Issue books
 - Return books
 - Track borrowed books
-- Rental history
-- Due date tracking
+- Maintain rental history
+- Automatic due date tracking
 
-### Smart Email Notification System
+### 📧 Smart Email Notification System
 Automated emails are sent for:
 
-- Library card issuance confirmation
-- Book rental confirmation
-- Due date reminder notifications
-- Overdue alerts after the due date
-- Pickup instructions and card details
+- ✅ Library card issuance confirmation
+- 📩 Book rental confirmation
+- ⏰ Due date reminder notifications
+- 🚨 Overdue alerts after the due date
+- 📍 Pickup instructions and card details
 
-### UI / UX
+### 🎨 UI / UX
 - Fantasy-themed interface
 - Warm premium aesthetic
 - Responsive design
-- Smooth animations
+- Smooth animations and transitions
+
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-### Frontend
+### 💻 Frontend
 - HTML5
 - CSS3
 - JavaScript
 
-### Backend
+### ⚙️ Backend
 - Python
 - Flask
 - Jinja2 Templates
 
-### Other
+### 🔌 Other Technologies
 - SMTP Email Integration
 - File-based Data Storage
 - Git & GitHub
 
 ---
 
-## Project Theme
+## 🏰 Project Theme
 
 This project draws inspiration from **The Citadel of Oldtown**, the ancient seat of knowledge in Westeros.
 
-### Library Address
+### 📍 Library Address
 The Citadel  
 Honeywine River District  
 Oldtown, The Reach  
 Westeros  
 
-### Contact
+### 🐦 Contact
 Send Raven to Tower 4
 
 ---
 
-## Folder Structure
+## 📂 Folder Structure
 
 ```text
 Citadel/
@@ -109,44 +117,58 @@ Citadel/
 
 ---
 
-# Screenshots
+# 📸 Screenshots
 
-## Homepage
-<img src="Screenshots/Home.png" width="1000">
-
----
-
-## Book Catalogue
-<img src="Screenshots/Book catalog.png" width="1000">
+## 🏠 Homepage
+<p align="center">
+  <img src="screenshots/home.png" width="1000">
+</p>
 
 ---
 
-## Library Card Registration
-<img src="Screenshots/Library Card Login.png" width="700">
+## 📚 Book Catalogue
+<p align="center">
+  <img src="screenshots/book-catalog.png" width="1000">
+</p>
 
 ---
 
-## Card Issued Successfully
-<img src="Screenshots/Card Issue Confirmation.png" width="700">
+## 🪪 Library Card Registration
+<p align="center">
+  <img src="screenshots/library-card-login.png" width="700">
+</p>
 
 ---
 
-## Email Confirmation
-<img src="Screenshots/Comfirmation Mail.png" width="1000">
+## ✅ Card Issued Successfully
+<p align="center">
+  <img src="screenshots/card-issue-confirmation.png" width="700">
+</p>
 
 ---
 
-## Rent Page
-<img src="Screenshots/Rent Page.png" width="1000">
+## 📧 Email Confirmation
+<p align="center">
+  <img src="screenshots/confirmation-mail.png" width="1000">
+</p>
 
 ---
 
-## Rental Confirmation
-<img src="Screenshots/Rental Confirmation.png" width="1000">
+## 📘 Rent Page
+<p align="center">
+  <img src="screenshots/rent-page.png" width="1000">
+</p>
 
 ---
 
-## Installation
+## 📩 Rental Confirmation
+<p align="center">
+  <img src="screenshots/rental-confirmation.png" width="1000">
+</p>
+
+---
+
+## 🚀 Installation
 
 Clone repository:
 
@@ -154,7 +176,7 @@ Clone repository:
 git clone https://github.com/YOUR_USERNAME/citadel-library-management.git
 ```
 
-Move into project:
+Move into project directory:
 
 ```bash
 cd citadel-library-management
@@ -180,18 +202,18 @@ http://127.0.0.1:5000
 
 ---
 
-## Future Improvements
+## 🔮 Future Improvements
 
 - Admin dashboard
 - User authentication
-- Due date reminders
-- Fine calculation
-- AI book recommendations
-- Reading analytics
+- Advanced due date reminders
+- Fine calculation system
+- AI-based book recommendations
+- Reading analytics dashboard
 
 ---
 
-## Learning Outcomes
+## 📚 Learning Outcomes
 
 This project strengthened my understanding of:
 
@@ -205,17 +227,18 @@ This project strengthened my understanding of:
 
 ---
 
-##  Author
+## 👨‍💻 Author
 
 **Ashhab Quddusi**  
 B.Tech Computer Science and Engineering Student at Jamia Hamdard University  
 Interested in Software Development, Data Structures & Algorithms, and Web Development.
 
-- LinkedIn: .linkedin.com/in/ashhab-quddusi
-- GitHub: .github.com/Ashhab-Quddusi
+- LinkedIn: https://www.linkedin.com/in/ashhab-quddusi
+- GitHub: https://github.com/AshhabQuddusi
 - Email: ashhabquddusi4@gmail.com
 
-  
- License
+---
+
+## 📜 License
 
 This project is open source and available under the MIT License.

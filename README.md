@@ -112,27 +112,27 @@ Citadel/
 # Screenshots
 
 ## Homepage
-<img src="screenshots/Home.png" width="1000">
+<img src="Screenshots/Home.png" width="1000">
 
 ---
 
 ## Book Catalogue
-<img src="screenshots/Book Catalog.png" width="1000">
+<img src="Screenshots/Book Catalog.png" width="1000">
 
 ---
 
 ## Library Card Registration
-<img src="screenshots/Library Card Login.png" width="700">
+<img src="Screenshots/Library Card Login.png" width="700">
 
 ---
 
 ## Card Issued Successfully
-<img src="screenshots/Card Issue Confirmation.png" width="700">
+<img src="Screenshots/Card Issue Confirmation.png" width="700">
 
 ---
 
 ## Email Confirmation
-<img src="screenshots/Comfirmation Mail.png" width="1000">
+<img src="Screenshots/Comfirmation Mail.png" width="1000">
 
 ---
 

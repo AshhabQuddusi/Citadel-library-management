@@ -113,6 +113,7 @@ Citadel/
 ├── static/        # CSS, JS, images
 ├── templates/     # HTML templates
 └── app.py         # Main Flask application
+└── requirements.txt
 ```
 
 ---

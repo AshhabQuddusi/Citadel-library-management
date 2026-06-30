@@ -1,30 +1,95 @@
-# Citadel — Library Management System
+# Citadel — Fantasy-Themed Library Management System
 
-A fantasy-inspired Library Management System based on **The Citadel of Oldtown** from Game of Thrones.
+<p align="center">
+  <b>Where Stories Come Alive</b>
+</p>
+
+<p align="center">
+A premium fantasy-inspired library management web application themed around <b>The Citadel of Oldtown</b> from Game of Thrones.
+</p>
 
 ---
 
 ## Overview
 
-Citadel is a Flask-based web application designed to manage library operations such as:
+Citadel is a modern web-based Library Management System designed to transform traditional library workflows into an immersive digital experience.
 
-- Book management
-- Student/member records
-- Book issue & return
-- Search and filtering
-- Librarian administration
+Inspired by the ancient archives of The Citadel in Oldtown, the platform combines elegant UI design with practical functionality for book discovery, borrowing, and member management.
 
-The interface is inspired by the ancient knowledge archives of The Citadel.
+Unlike traditional academic projects focused only on CRUD operations, Citadel emphasizes both **system functionality** and **user experience**.
+
+---
+
+## Features
+
+### Book Discovery
+- Browse 100+ books
+- Search by title or author
+- Filter by categories
+- Sort collections
+- View book availability status
+
+### Library Membership
+- Register for a library card
+- Automatic card number generation
+- Unique member IDs
+
+Example:
+```text
+CLB-2026-1001
+```
+
+### Borrowing System
+- Issue books
+- Return books
+- Track checked-out books
+- Availability indicators
+
+### Email Integration
+- Automatic email confirmation
+- Sends card details to member email
+- Includes pickup instructions
+
+### UI / UX Features
+- Warm aesthetic design
+- Fantasy-themed branding
+- Smooth modal interactions
+- Responsive layout
+- Premium visual identity
 
 ---
 
 ## Tech Stack
 
-- **Frontend:** HTML, CSS, JavaScript
-- **Backend:** Python, Flask
-- **Template Engine:** Jinja2
-- **Database/Storage:** Data folder storage
-- **Version Control:** Git & GitHub
+### Frontend
+- HTML5
+- CSS3
+- JavaScript
+
+### Backend
+- Python
+- Flask
+- Jinja2 Templates
+
+### Other
+- SMTP Email Integration
+- File-based Data Storage
+- Git & GitHub
+
+---
+
+## Project Theme
+
+This project draws inspiration from **The Citadel of Oldtown**, the ancient seat of knowledge in Westeros.
+
+### Library Address
+The Citadel  
+Honeywine River District  
+Oldtown, The Reach  
+Westeros  
+
+### Contact
+Send Raven to Tower 4
 
 ---
 
@@ -33,33 +98,38 @@ The interface is inspired by the ancient knowledge archives of The Citadel.
 ```text
 Citadel/
 │
-├── data/         # Database/storage files
-├── static/       # CSS, JS, images
-├── templates/    # HTML templates
-└── app.py        # Main Flask application
+├── data/          # Storage files / library records
+├── static/        # CSS, JS, images
+├── templates/     # HTML templates
+└── app.py         # Main Flask application
 ```
 
 ---
 
-## Features
+# Screenshots
 
-- Add books
-- Remove books
-- Update book details
-- Issue books
-- Return books
-- Track members
-- Search catalog
+## Homepage
+<img src="screenshots/home.png" width="1000">
 
 ---
 
-## Project Theme
+## Book Catalog
+<img src="screenshots/books.png" width="1000">
 
-**Address:**  
-The Citadel  
-Honeywine River District  
-Oldtown, The Reach  
-Westeros  
+---
+
+## Library Card Registration
+<img src="screenshots/card-form.png" width="700">
+
+---
+
+## Card Issued Successfully
+<img src="screenshots/card-issued.png" width="700">
+
+---
+
+## Email Confirmation
+<img src="screenshots/email-confirmation.png" width="1000">
 
 ---
 
@@ -68,17 +138,22 @@ Westeros
 Clone repository:
 
 ```bash
-git clone <repo-link>
+git clone https://github.com/YOUR_USERNAME/citadel-library-management.git
+```
+
+Move into project:
+
+```bash
 cd citadel-library-management
 ```
 
 Install dependencies:
 
 ```bash
-pip install flask
+pip install -r requirements.txt
 ```
 
-Run project:
+Run application:
 
 ```bash
 python app.py
@@ -92,33 +167,42 @@ http://127.0.0.1:5000
 
 ---
 
-## Screenshots
-
-### Homepage
-![Homepage](screenshots/home.png)
-
-### Dashboard
-![Dashboard](screenshots/dashboard.png)
-
----
-
 ## Future Improvements
 
+- Admin dashboard
+- User authentication
+- Due date reminders
+- Fine calculation
 - AI book recommendations
-- Smart search
-- Fine analytics
-- Email reminders
+- Reading analytics
 
 ---
 
-##👨‍💻 Author
-Ashhab Quddusi
-B.Tech Computer Science and Engineering Student at Jamia Hamdard University.
+## Learning Outcomes
 
-LinkedIn: .linkedin.com/in/ashhab-quddusi
-GitHub: .github.com/Ashhab-Quddusi
-Email: ashhabquddusi4@gmail.com
+This project strengthened my understanding of:
 
-📄 License
+- Full-stack development
+- Flask architecture
+- Template rendering
+- Backend integration
+- SMTP email systems
+- UI/UX design principles
+- Product-oriented development
 
-This project is open source and available under the MIT License.  
+---
+
+##  Author
+
+**Ashhab Quddusi**  
+B.Tech Computer Science and Engineering Student at Jamia Hamdard University  
+Interested in Software Development, Data Structures & Algorithms, and Web Development.
+
+- LinkedIn: .linkedin.com/in/ashhab-quddusi
+- GitHub: .github.com/Ashhab-Quddusi
+- Email: ashhabquddusi4@gmail.com
+
+  
+ License
+
+This project is open source and available under the MIT License.

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Citadel — Where Stories Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+<div id="toast"></div>
+
+<!-- ══ CONFIRMATION MODAL ═══════════════════════════════ -->
+<div class="modal-overlay confirm-overlay" id="confirmModal">
+  <div class="modal confirm-modal">
+    <div class="confirm-icon" id="confirmIcon">✅</div>
+    <h2 class="confirm-title" id="confirmTitle">Done!</h2>
+    <div class="confirm-body" id="confirmBody"></div>
+    <button class="confirm-close-btn" onclick="closeModal('confirmModal')">Close</button>
+  </div>
+</div>
+
+<!-- ══ RENT MODAL ════════════════════════════════════════ -->
+<div class="modal-overlay" id="rentModal">
+  <div class="modal modal-sm">
+    <div class="modal-hd">
+      <span id="rentModalTitle">Rent a Book</span>
+      <button class="modal-x" onclick="closeModal('rentModal')">&#x2715;</button>
+    </div>
+    <div class="modal-bd">
+      <div class="rent-book-preview" id="rentBookPreview"></div>
+      <p class="rent-intro">Fill in your details below. A confirmation email with collection instructions will be sent to you immediately.</p>
+      <div class="fg"><label class="fl">Full Name</label>
+        <input class="fi" id="rentName" placeholder="Your full name"/></div>
+      <div class="fg"><label class="fl">Email Address</label>
+        <input class="fi" type="email" id="rentEmail" placeholder="you@email.com"/></div>
+      <div class="fg">
+        <label class="fl">Library Card Number <a class="need-card-link" onclick="switchToCard()">Don't have one? Get it free →</a></label>
+        <input class="fi" id="rentCard" placeholder="e.g. CLB-2026-1001"/>
+      </div>
+      <div class="rent-error" id="rentError"></div>
+      <button class="rent-submit-btn" id="rentSubmitBtn" onclick="submitRent()">
+        <span id="rentBtnTxt">Confirm Rental</span>
+        <div class="btn-spinner" id="rentSpinner"></div>
+      </button>
+      <p class="rent-note">📍 Collect from library counter · 30-day lending · Free of charge</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RETURN MODAL ══════════════════════════════════════ -->
+<div class="modal-overlay" id="returnModal">
+  <div class="modal modal-sm">
+    <div class="modal-hd">
+      <span>Return a Book</span>
+      <button class="modal-x" onclick="closeModal('returnModal')">&#x2715;</button>
+    </div>
+    <div class="modal-bd">
+      <p style="font-size:.83rem;color:var(--warm-grey);margin-bottom:1.2rem;line-height:1.6">Enter your library card number to see your active rentals.</p>
+      <div class="fg"><label class="fl">Library Card Number</label>
+        <input class="fi" id="retCard" placeholder="e.g. CLB-2026-1001" oninput="lookupRentals()"/></div>
+      <div id="retList"></div>
+      <div class="rent-error" id="retError"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ LIBRARY CARD MODAL ════════════════════════════════ -->
+<div class="modal-overlay" id="cardModal">
+  <div class="modal modal-sm">
+    <div class="modal-hd">
+      <span>Get a Library Card</span>
+      <button class="modal-x" onclick="closeModal('cardModal')">&#x2715;</button>
+    </div>
+    <div class="modal-bd">
+      <div class="card-modal-hero">
+        <div class="card-mock">
+          <div class="card-mock-logo">Citadel<span></span></div>
+          <div class="card-mock-label">Member Card · Est. 2024</div>
+          <div class="card-mock-num" id="cardMockNum">CLB-2026-XXXX</div>
+          <div class="card-mock-name" id="cardMockName">Your Name</div>
+        </div>
+      </div>
+      <p class="rent-intro">Register for your free library card. Your unique card number will be emailed instantly, and you can collect a physical card from the counter.</p>
+      <div class="fg"><label class="fl">Full Name</label>
+        <input class="fi" id="cardName" placeholder="Your full name" oninput="updateCardMock()"/></div>
+      <div class="fg"><label class="fl">Email Address</label>
+        <input class="fi" type="email" id="cardEmail" placeholder="you@email.com"/></div>
+      <div class="fg"><label class="fl">Phone <span style="font-size:.7rem;color:var(--warm-grey);text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
+        <input class="fi" id="cardPhone" placeholder="+91 98765 43210"/></div>
+      <div class="rent-error" id="cardError"></div>
+      <button class="rent-submit-btn" id="cardSubmitBtn" onclick="submitCardRequest()">
+        <span id="cardBtnTxt">Issue My Library Card</span>
+        <div class="btn-spinner" id="cardSpinner"></div>
+      </button>
+      <p class="rent-note">🆓 Free · ✉️ Card number emailed instantly · 📍 Collect physical card at the library</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ALL BOOKS PAGE (in-page, hides homepage) ══════════ -->
+<div id="allBooksPage" style="display:none">
+  <!-- Sticky controls bar (acts as the header) -->
+  <div style="background:var(--charcoal);padding:4.5rem 4rem 2.5rem">
+    <div style="max-width:1200px;margin:0 auto">
+      <button class="abp-back-btn" onclick="showHomePage()">&#x2190; Back to Home</button>
+      <h1 class="abp-title">All <em>Books</em></h1>
+      <p class="abp-sub">Our complete collection of <span id="abpCount">100+</span> books — search, filter and sort to find your next read.</p>
+    </div>
+  </div>
+  <div class="abp-controls">
+    <div class="abp-ctrl-inner">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="cat-search" id="abpSearch" placeholder="Search title or author…" oninput="debounceAbpFilter()"/>
+        <button class="search-clear" id="abpSearchClear" onclick="clearAbpSearch()" style="display:none">&#x2715;</button>
+      </div>
+      <div class="sort-wrap">
+        <select class="sort-select" id="abpSort" onchange="filterAbpBooks()">
+          <option value="">Default order</option>
+          <option value="title">Title A–Z</option>
+          <option value="author">Author A–Z</option>
+          <option value="newest">Newest first</option>
+        </select>
+      </div>
+    </div>
+    <div class="abp-pills-wrap"><div class="genre-pills" id="abpGenrePills"></div></div>
+    <div class="abp-results-info" id="abpResultsInfo"></div>
+  </div>
+  <div class="abp-grid-wrap">
+    <div id="abpLoading" class="cat-loading" style="display:none"><div class="cat-spinner"></div><span>Loading books…</span></div>
+    <div class="cat-grid" id="abpGrid"></div>
+  </div>
+</div>
+
+<!-- ══ HOME PAGE ══════════════════════════════════════════ -->
+<div id="homePage">
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a class="nav-logo" href="/">Citadel<span></span></a>
+  <ul class="nav-links">
+    <li><a href="#new-books">New Arrivals</a></li>
+    <li><a onclick="showAllBooksPage()" style="cursor:pointer">All Books</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Visit Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="nav-card-btn" onclick="openCardModal()">🪪 Get a Card</button>
+    <button class="nav-return-btn" onclick="openReturn()">↩ Return</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="fb-wrap" id="fbWrap"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Citadel &middot; Est. 2024 &middot; Old Town</p>
+    <h1 class="hero-title">Where <em>Stories</em><br>Come Alive</h1>
+    <p class="hero-sub">"A reader lives a thousand lives before he dies.<br>The man who never reads lives only one."</p>
+    <div class="hero-btns">
+      <a onclick="showAllBooksPage()" class="btn-gold" style="cursor:pointer">Browse All 100+ Books</a>
+      <a onclick="openCardModal()" class="btn-ghost" style="cursor:pointer">🪪 Get a Library Card</a>
+    </div>
+  </div>
+
+  <!-- Open book SVG — retro-academic tones -->
+  <div class="hero-book-art">
+    <svg width="240" height="170" viewBox="0 0 260 180" xmlns="http://www.w3.org/2000/svg"
+         style="filter:drop-shadow(0 22px 60px rgba(201,166,107,0.2))">
+      <defs>
+        <linearGradient id="cvg" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#56624E"/>
+          <stop offset="100%" stop-color="#3a4535"/>
+        </linearGradient>
+      </defs>
+      <path d="M130 20 Q80 15 20 25 L10 160 Q60 152 130 158 Z" fill="url(#cvg)"/>
+      <path d="M130 20 Q180 15 240 25 L250 160 Q200 152 130 158 Z" fill="url(#cvg)"/>
+      <path d="M130 22 Q82 18 25 27 L15 158 Q65 151 130 156 Z" fill="#FFF9F0"/>
+      <path d="M130 22 Q178 18 235 27 L245 158 Q195 151 130 156 Z" fill="#EFE6D6"/>
+      <rect x="127" y="18" width="6" height="140" fill="#3a4535" rx="1"/>
+      <g stroke="rgba(47,43,39,0.09)" stroke-width="0.8">
+        <line x1="38" y1="60" x2="118" y2="58"/><line x1="36" y1="74" x2="116" y2="72"/>
+        <line x1="34" y1="88" x2="114" y2="86"/><line x1="33" y1="102" x2="112" y2="100"/>
+        <line x1="32" y1="116" x2="111" y2="114"/>
+      </g>
+      <g stroke="rgba(47,43,39,0.07)" stroke-width="0.8">
+        <line x1="142" y1="58" x2="222" y2="60"/><line x1="144" y1="72" x2="224" y2="74"/>
+        <line x1="146" y1="86" x2="226" y2="88"/><line x1="147" y1="100" x2="227" y2="102"/>
+      </g>
+      <text x="44" y="48" font-family="Georgia,serif" font-size="8" fill="rgba(201,166,107,0.72)" font-style="italic">Chapter I</text>
+      <path d="M40 52 Q80 50 115 52" stroke="rgba(201,166,107,0.42)" stroke-width="0.8" fill="none"/>
+      <!-- Bookmark ribbon in brass -->
+      <rect x="96" y="18" width="8" height="52" fill="#C9A66B" rx="1"/>
+      <path d="M96 70 L100 78 L104 70" fill="#C9A66B"/>
+    </svg>
+  </div>
+
+  <div class="scroll-hint"><span>Scroll to explore</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq-wrap"><div class="mq-inner" id="mqInner"></div></div>
+
+<!-- STATS -->
+<div class="stats-band reveal">
+  <div class="stat-item"><span class="stat-num">100+</span><span class="stat-label">Books Available</span></div>
+  <div class="stat-item"><span class="stat-num counter" data-target="1840">0</span><span class="stat-label">Happy Members</span></div>
+  <div class="stat-item"><span class="stat-num counter" data-target="13">0</span><span class="stat-label">Genres</span></div>
+  <div class="stat-item"><span class="stat-num counter" data-target="30">0</span><span class="stat-label">Day Lending Period</span></div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how-it-works">
+  <span class="sec-ey reveal">Simple Process</span>
+  <h2 class="sec-title reveal">How it <em>Works</em></h2>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-icon">🪪</div>
+      <h3>Get a Card</h3>
+      <p>Register free and receive your unique Library Card number by email instantly.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-icon">🔍</div>
+      <h3>Find a Book</h3>
+      <p>Browse 100+ books, search by title or author, or filter by genre.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-icon">✉️</div>
+      <h3>Get Confirmed</h3>
+      <p>Enter your name, email and card — receive a confirmation email right away.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-icon">📚</div>
+      <h3>Collect &amp; Read</h3>
+      <p>Visit the library counter, show your card, collect your book and enjoy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEW ARRIVALS -->
+<section id="new-books" style="background:var(--ivory);border-top:1px solid var(--divider);border-bottom:1px solid var(--divider)">
+  <div class="new-arrivals-header reveal">
+    <div>
+      <span class="sec-ey">Fresh Off the Shelves</span>
+      <h2 class="sec-title">New <em>Arrivals</em></h2>
+      <p class="sec-body">Our latest additions — newly arrived books waiting to be discovered.</p>
+    </div>
+    <button class="show-all-btn" onclick="showAllBooksPage()">Show All Books &rarr;</button>
+  </div>
+  <div id="newGrid" class="cat-grid new-grid">
+    <div class="cat-loading"><div class="cat-spinner"></div><span>Loading new arrivals…</span></div>
+  </div>
+</section>
+
+<!-- LIBRARY CARD SECTION -->
+<section id="get-card" style="background:var(--charcoal)">
+  <div class="card-section-inner">
+    <div class="rev-l">
+      <span class="sec-ey" style="color:var(--brass)">Free Membership</span>
+      <h2 class="sec-title" style="color:var(--ivory)">Get Your <em style="color:var(--brass)">Library Card</em></h2>
+      <p class="sec-body" style="color:rgba(255,249,240,.55)">Your library card unlocks 100+ books, free 30-day rentals and instant email confirmations. Register online and collect your physical card from our counter.</p>
+      <ul class="card-perks">
+        <li style="color:rgba(255,249,240,.65)">🆓 Completely free, always</li>
+        <li style="color:rgba(255,249,240,.65)">📧 Card number emailed instantly</li>
+        <li style="color:rgba(255,249,240,.65)">📍 Collect physical card at our counter</li>
+        <li style="color:rgba(255,249,240,.65)">📚 Borrow any available book for 30 days</li>
+        <li style="color:rgba(255,249,240,.65)">🔄 Unlimited rentals over time</li>
+      </ul>
+      <button class="card-cta-btn" onclick="openCardModal()">Get My Library Card &rarr;</button>
+    </div>
+    <div class="card-visual rev-r">
+      <div class="card-display">
+        <div class="card-display-front">
+          <div class="cdv-logo">Citadel<span></span></div>
+          <div class="cdv-type">Member Card · Est. 2024</div>
+          <div class="cdv-num">CLB-2026-XXXX</div>
+          <div class="cdv-bottom"><span>Member Name</span><span>Old Town</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" style="background:var(--beige);border-top:1px solid var(--divider)">
+  <div class="about-grid">
+    <div class="rev-l">
+      <span class="sec-ey">Our Story</span>
+      <h2 class="sec-title">A Place for <em>Curious Minds</em></h2>
+      <p class="sec-body">Citadel has been a sanctuary for readers, students and thinkers since 2024. Our mission: connect every person with the book that will change their life.</p>
+      <div class="qblock">
+        <p class="qt" style="color:var(--charcoal)">"Not all those who wander are lost — some are just between chapters."</p>
+        <span class="qa">— Citadel Motto</span>
+      </div>
+      <div class="hrs">
+        <div class="hr-block">
+          <div class="day" style="color:var(--olive)">Mon–Fri</div>
+          <div class="time" style="color:var(--warm-grey)">9 AM – 8 PM</div>
+        </div>
+        <div class="hr-block">
+          <div class="day" style="color:var(--olive)">Sat–Sun</div>
+          <div class="time" style="color:var(--warm-grey)">10 AM – 6 PM</div>
+        </div>
+      </div>
+    </div>
+    <div class="shelf-wrap rev-r">
+      <div class="shelf-row" id="shelfRow"></div>
+      <div class="shelf-plank"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background:var(--cream)">
+  <div class="contact-inner">
+    <span class="sec-ey reveal" style="display:block">Find Us</span>
+    <h2 class="sec-title reveal">Come <em>Visit</em> Us</h2>
+    <p class="sec-body reveal" style="margin:0 auto 0">Step through our doors and let a good book find you.</p>
+    <div class="contact-card reveal">
+      <div class="cc-title">📍 Citadel, Old Town</div>
+      <div class="cc-addr">The Citadel, Oldtown, Westeros</div>
+      <div class="cc-contact">📞 Send Raven to Tower 4 &nbsp;·&nbsp; ✉️ hello@citadel.in</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-logo">Citadel<span></span></div>
+  <div class="foot-note">© 2026 Citadel · &amp;  · Old Town, Westeros</div>
+</footer>
+
+</div><!-- /#homePage -->
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>

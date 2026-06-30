@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>{{ book.title }} — Central Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="/static/css/style.css"/>
+<link rel="stylesheet" href="/static/css/book.css"/>
+</head>
+<body>
+<div id="toast"></div>
+
+<!-- ══ CONFIRMATION MODAL ══ -->
+<div class="modal-overlay confirm-overlay" id="confirmModal">
+  <div class="modal confirm-modal">
+    <div class="confirm-icon" id="confirmIcon">✅</div>
+    <h2 class="confirm-title" id="confirmTitle">Done!</h2>
+    <div class="confirm-body" id="confirmBody"></div>
+    <button class="confirm-close-btn" onclick="closeModal('confirmModal')">Close</button>
+  </div>
+</div>
+
+<!-- ══ RENT MODAL ══ -->
+<div class="modal-overlay" id="rentModal">
+  <div class="modal modal-sm">
+    <div class="modal-hd">
+      <span>Rent This Book</span>
+      <button class="modal-x" onclick="closeModal('rentModal')">&#x2715;</button>
+    </div>
+    <div class="modal-bd">
+      <div class="rent-book-preview">
+        <img src="{{ book.cover }}" alt="{{ book.title }}"
+          style="width:52px;height:75px;object-fit:cover;border-radius:8px;flex-shrink:0;border:1px solid var(--divider)"
+          onerror="this.style.display='none'"/>
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;color:var(--charcoal);font-size:.95rem;line-height:1.3">{{ book.title }}</div>
+          <div style="font-size:.77rem;font-style:italic;color:var(--warm-grey);margin-top:.2rem">by {{ book.author }}</div>
+          <div style="font-size:.68rem;color:var(--sage-dark);margin-top:.3rem;text-transform:uppercase;letter-spacing:.07em;font-weight:600">{{ book.genre }}</div>
+        </div>
+      </div>
+      <p class="rent-intro">Fill in your details. An email confirmation with collection instructions will be sent immediately.</p>
+      <div class="fg"><label class="fl">Full Name</label>
+        <input class="fi" id="rentName" placeholder="Your full name"/></div>
+      <div class="fg"><label class="fl">Email Address</label>
+        <input class="fi" type="email" id="rentEmail" placeholder="you@email.com"/></div>
+      <div class="fg">
+        <label class="fl">Library Card Number
+          <a class="need-card-link" href="/#get-card">Don't have one? Get it free →</a>
+        </label>
+        <input class="fi" id="rentCard" placeholder="e.g. CLB-2026-1001"/>
+      </div>
+      <div class="rent-error" id="rentError"></div>
+      <button class="rent-submit-btn" id="rentSubmitBtn" onclick="submitRentPage({{ book.id }})">
+        <span id="rentBtnTxt">Confirm Rental</span>
+        <div class="btn-spinner" id="rentSpinner"></div>
+      </button>
+      <p class="rent-note">📍 Collect from library counter · 30-day lending · Free of charge</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RETURN MODAL ══ -->
+<div class="modal-overlay" id="returnModal">
+  <div class="modal modal-sm">
+    <div class="modal-hd">
+      <span>Return a Book</span>
+      <button class="modal-x" onclick="closeModal('returnModal')">&#x2715;</button>
+    </div>
+    <div class="modal-bd">
+      <p style="font-size:.83rem;color:var(--warm-grey);margin-bottom:1.2rem;line-height:1.6">Enter your library card number to view your active rentals.</p>
+      <div class="fg"><label class="fl">Library Card Number</label>
+        <input class="fi" id="retCard" placeholder="e.g. CLB-2026-1001" oninput="lookupRentals()"/></div>
+      <div id="retList"></div>
+      <div class="rent-error" id="retError"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NAVBAR ══ -->
+<nav id="navbar" class="scrolled">
+  <a class="nav-logo" href="/">Citadel<span></span></a>
+  <ul class="nav-links">
+    <li><a href="/#new-books">New Arrivals</a></li>
+    <li><a href="/">All Books</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#contact">Visit Us</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a class="nav-card-btn" href="/#get-card">🪪 Get a Card</a>
+    <button class="nav-return-btn" onclick="openReturn()">↩ Return</button>
+  </div>
+</nav>
+
+<!-- ══ BOOK DETAIL ══ -->
+<div class="bd-page">
+  <div class="bd-breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <a href="/" onclick="return true;">All Books</a>
+    <span>/</span>
+    <span>{{ book.genre }}</span>
+  </div>
+
+  <div class="bd-wrap">
+    <!-- LEFT ASIDE -->
+    <aside class="bd-aside">
+      <div class="bd-cover-box">
+        <img class="bd-cover-img" id="bdCoverImg"
+          src="{{ book.cover }}" alt="{{ book.title }}"
+          onerror="this.style.display='none';document.getElementById('bdCoverFb').style.display='flex'"/>
+        <div class="bd-cover-fb" id="bdCoverFb"
+          style="background:{{ book.color or '#56624E' }};display:none">
+          <div class="bd-fb-title">{{ book.title }}</div>
+          <div class="bd-fb-author">{{ book.author }}</div>
+        </div>
+        {% if book.new %}<div class="bd-new-ribbon">NEW</div>{% endif %}
+      </div>
+
+      {% if book.available %}
+      <div class="bd-avail-badge av">✓ Available to Rent</div>
+      {% else %}
+      <div class="bd-avail-badge out">⏳ Currently Checked Out</div>
+      {% endif %}
+
+      <div class="bd-action-btns">
+        {% if book.available %}
+        <button class="bd-rent-btn" onclick="openRentModal()">📤 Rent this Book</button>
+        {% else %}
+        <button class="bd-rent-btn" disabled>⏳ Not Available</button>
+        {% endif %}
+        <button class="bd-return-btn" onclick="openReturn()">↩ Return a Book</button>
+      </div>
+
+      <div class="bd-meta-table">
+        <div class="bd-meta-row"><span>Genre</span><strong>{{ book.genre }}</strong></div>
+        <div class="bd-meta-row"><span>Author</span><strong>{{ book.author }}</strong></div>
+        <div class="bd-meta-row"><span>Year</span><strong>{% if book.year and book.year > 0 %}{{ book.year }}{% else %}Ancient{% endif %}</strong></div>
+        <div class="bd-meta-row"><span>Pages</span><strong>{{ book.pages }}</strong></div>
+        <div class="bd-meta-row"><span>ISBN</span><strong style="font-family:monospace;font-size:.7rem">{{ book.isbn }}</strong></div>
+        <div class="bd-meta-row"><span>Rental Fee</span><strong style="color:var(--olive)">Free</strong></div>
+        <div class="bd-meta-row"><span>Loan Period</span><strong>30 days</strong></div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="bd-main">
+      {% if book.new %}<div class="bd-new-tag">New Arrival</div>{% endif %}
+
+      <h1 class="bd-title">{{ book.title }}</h1>
+      <p class="bd-author-line">by <strong>{{ book.author }}</strong></p>
+      <span class="bd-genre-chip">{{ book.genre }}</span>
+
+      <div class="bd-highlights">
+        <div class="bd-hl">
+          <div class="bd-hl-icon">📖</div>
+          <div class="bd-hl-num">{{ book.pages }}</div>
+          <div class="bd-hl-label">Pages</div>
+        </div>
+        <div class="bd-hl">
+          <div class="bd-hl-icon">📅</div>
+          <div class="bd-hl-num">{% if book.year and book.year > 0 %}{{ book.year }}{% else %}—{% endif %}</div>
+          <div class="bd-hl-label">Published</div>
+        </div>
+        <div class="bd-hl">
+          <div class="bd-hl-icon">🏷️</div>
+          <div class="bd-hl-num" style="font-size:.82rem">{{ book.genre }}</div>
+          <div class="bd-hl-label">Genre</div>
+        </div>
+        <div class="bd-hl">
+          <div class="bd-hl-icon">⏱️</div>
+          <div class="bd-hl-num">30</div>
+          <div class="bd-hl-label">Day Loan</div>
+        </div>
+      </div>
+
+      <div class="bd-desc-block">
+        <h3 class="bd-desc-title">About This Book</h3>
+        <p class="bd-desc-text">{{ book.description }}</p>
+      </div>
+
+      <div class="bd-cta-box">
+        <div class="bd-cta-left">
+          <div class="bd-cta-label">Rental Fee</div>
+          <div class="bd-cta-price">Free</div>
+          <div class="bd-cta-sub">30-day lending · Collect from library</div>
+        </div>
+        {% if book.available %}
+        <button class="bd-cta-rent-btn" onclick="openRentModal()">📤 Rent this Book</button>
+        {% else %}
+        <div class="bd-unavail">⏳ Checked out.<br>Please check back soon.</div>
+        {% endif %}
+      </div>
+
+      <div class="bd-process">
+        <h3 class="bd-process-title">How to Collect Your Book</h3>
+        <ol class="bd-steps">
+          <li>Click <strong>Rent this Book</strong> and enter your name, email and library card number</li>
+          <li>You'll instantly receive a <strong>confirmation email</strong> with all rental details</li>
+          <li>Visit the <strong>library counter</strong> at The Citadel, Old Town</li>
+          <li>Present your Library Card to the librarian — they'll hand you the book</li>
+          <li>Return within <strong>30 days</strong> to avoid late fees</li>
+        </ol>
+      </div>
+
+      <div class="bd-back-row">
+        <a href="javascript:history.back()" class="bd-back-link">← Back</a>
+        <a href="/" class="bd-back-link">🏠 Home</a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-logo">Citadel<span></span></div>
+  <div class="foot-note">© 2026 Citadel ·&amp; Old Town, Westeros</div>
+</footer>
+
+<script src="/static/js/main.js"></script>
+<script>
+function openRentModal() {
+  ["rentName","rentEmail","rentCard"].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.value="";
+  });
+  var err=document.getElementById("rentError");
+  if(err) err.textContent="";
+  resetRentBtn();
+  document.getElementById("rentModal").classList.add("active");
+  setTimeout(function(){ var n=document.getElementById("rentName"); if(n) n.focus(); },200);
+}
+
+function submitRentPage(bookId) {
+  var name  = (document.getElementById("rentName").value  ||"").trim();
+  var email = (document.getElementById("rentEmail").value ||"").trim();
+  var card  = (document.getElementById("rentCard").value  ||"").trim();
+  var errEl = document.getElementById("rentError");
+  if(!name||!email||!card){errEl.textContent="Please fill in all three fields.";return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){errEl.textContent="Please enter a valid email address.";return;}
+  if(card.length<3){errEl.textContent="Please enter a valid library card number.";return;}
+  errEl.textContent="";
+  var btn=document.getElementById("rentSubmitBtn");
+  btn.disabled=true;
+  document.getElementById("rentBtnTxt").style.display="none";
+  document.getElementById("rentSpinner").style.display="block";
+
+  fetch("/api/rent",{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({book_id:bookId,name:name,email:email,card_no:card})
+  }).then(function(r){return r.json().then(function(d){if(!r.ok)throw d;return d;})})
+  .then(function(data){
+    closeModal("rentModal");
+    resetRentBtn();
+    var badge=document.querySelector(".bd-avail-badge");
+    if(badge){badge.className="bd-avail-badge out";badge.textContent="⏳ Currently Checked Out";}
+    var rb=document.querySelector(".bd-rent-btn");
+    if(rb){rb.disabled=true;rb.textContent="⏳ Not Available";}
+    var cb=document.querySelector(".bd-cta-rent-btn");
+    if(cb){cb.disabled=true;cb.textContent="⏳ Not Available";}
+
+    var emailNote=(data.email_status==="sent")
+      ?'<p style="margin-top:.8rem;font-size:.77rem;color:var(--olive)">✅ Confirmation email sent to <strong>'+escHtml(email)+'</strong></p>'
+      :'<p style="margin-top:.8rem;font-size:.77rem;color:var(--overdue)">⚠️ Email could not be sent — please note your details above.</p>';
+
+    showConfirm("📚","Rental Confirmed!",
+      '<p>Your rental of <strong>{{ book.title }}</strong> has been confirmed.</p>'+
+      '<div class="conf-detail">'+
+      '<div class="conf-row"><span class="conf-label">Card No.</span><span class="conf-val">'+escHtml(card)+'</span></div>'+
+      '<div class="conf-row"><span class="conf-label">Rented On</span><span class="conf-val">'+escHtml(data.rent_date)+'</span></div>'+
+      '<div class="conf-row"><span class="conf-label">Due Date</span><span class="conf-val" style="color:var(--overdue)">'+escHtml(data.due_date)+'</span></div>'+
+      '</div>'+
+      '<p>📍 Collect from the library counter with card <strong>'+escHtml(card)+'</strong></p>'+
+      emailNote
+    );
+  })
+  .catch(function(err){
+    errEl.textContent=err.error||"Could not complete rental. Please try again.";
+    resetRentBtn();
+  });
+}
+
+function openReturn() {
+  var c=document.getElementById("retCard"),l=document.getElementById("retList"),e=document.getElementById("retError");
+  if(c) c.value=""; if(l) l.innerHTML=""; if(e) e.textContent="";
+  document.getElementById("returnModal").classList.add("active");
+}
+</script>
+</body>
+</html>

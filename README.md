@@ -1,103 +1,124 @@
-# Library Management System 📚
+# Citadel — Library Management System
 
-A Python-based command-line application to manage a small library system using Object-Oriented Programming concepts. Users can view books, borrow books, return books, and interact through a simple menu-driven interface.
-
----
-
-## 🚀 Features
-
-* 📖 View all available books
-* 📥 Borrow a book
-* 📤 Return/Add a book
-* 🧾 Interactive menu-based CLI
-* 🧱 Clean OOP structure using classes and methods
-* ⚡ Beginner-friendly Python project
+A fantasy-inspired Library Management System based on **The Citadel of Oldtown** from Game of Thrones.
 
 ---
 
-## 🛠️ Tech Stack
+## Overview
 
-* **Python 3**
-* **Object-Oriented Programming (OOP)**
-* **Command Line Interface (CLI)**
+Citadel is a Flask-based web application designed to manage library operations such as:
+
+- Book management
+- Student/member records
+- Book issue & return
+- Search and filtering
+- Librarian administration
+
+The interface is inspired by the ancient knowledge archives of The Citadel.
 
 ---
 
-## 📂 Project Structure
+## Tech Stack
+
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Python, Flask
+- **Template Engine:** Jinja2
+- **Database/Storage:** Data folder storage
+- **Version Control:** Git & GitHub
+
+---
+
+## Folder Structure
 
 ```text
-library-management-system/
-│── main.py
-│── README.md
-│── .gitignore
+Citadel/
+│
+├── data/         # Database/storage files
+├── static/       # CSS, JS, images
+├── templates/    # HTML templates
+└── app.py        # Main Flask application
 ```
 
 ---
 
-## ▶️ How to Run
+## Features
 
-1. Install Python 3 on your system
-2. Clone this repository:
+- Add books
+- Remove books
+- Update book details
+- Issue books
+- Return books
+- Track members
+- Search catalog
+
+---
+
+## Project Theme
+
+**Address:**  
+The Citadel  
+Honeywine River District  
+Oldtown, The Reach  
+Westeros  
+
+---
+
+## Installation
+
+Clone repository:
 
 ```bash
-git clone https://github.com/AshhabQuddusi/Library-Management-System
-cd library-management-system
+git clone <repo-link>
+cd citadel-library-management
 ```
 
-3. Run the project:
+Install dependencies:
 
 ```bash
-python main.py
+pip install flask
 ```
 
----
+Run project:
 
-## 💡 How It Works
+```bash
+python app.py
+```
 
-The application provides the following options:
-
-1. List all books
-2. Request a book
-3. Return/Add a book
-4. Exit the program
-
-Books are stored in memory using Python lists.
-
----
-
-## 📸 Sample Output
+Open browser:
 
 ```text
-====== Welcome to Central Library ======
-1. List all the books
-2. Request a book
-3. Add/Return a book
-4. Exit the Library
+http://127.0.0.1:5000
 ```
 
 ---
 
-## 🎯 Learning Outcomes
+## Screenshots
 
-This project demonstrates:
+### Homepage
+![Homepage](screenshots/home.png)
 
-* Python classes & objects
-* Methods and constructors
-* Lists and condition handling
-* User input handling
-
----
-
-## 👨‍💻 Author
-
-**Ashhab Quddusi**
-
-* LinkedIn: www.linkedin.com/in/ashhab-quddusi
-* GitHub: https://github.com/AshhabQuddusi?tab=repositories
-
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
 
 ---
 
-## ⭐ Support
+## Future Improvements
 
-If you found this project helpful, consider giving it a star on GitHub!
+- AI book recommendations
+- Smart search
+- Fine analytics
+- Email reminders
+
+---
+
+##👨‍💻 Author
+Ashhab Quddusi
+B.Tech Computer Science and Engineering Student at Jamia Hamdard University.
+
+LinkedIn: .linkedin.com/in/ashhab-quddusi
+GitHub: .github.com/Ashhab-Quddusi
+Email: ashhabquddusi4@gmail.com
+
+📄 License
+
+This project is open source and available under the MIT License.  

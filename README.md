@@ -1,4 +1,5 @@
-# Citadel — The Library Management System
+<p align="center">
+  # Citadel — The Library Management System
 
 <p align="center">
   <b>Where Stories Come Alive</b>

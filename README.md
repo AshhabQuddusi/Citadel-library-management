@@ -117,7 +117,7 @@ Citadel/
 ---
 
 ## Book Catalogue
-<img src="Screenshots/Book Catalog.png" width="1000">
+<img src="Screenshots/Book catalog.png" width="1000">
 
 ---
 
